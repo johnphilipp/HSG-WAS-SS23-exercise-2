@@ -68,16 +68,16 @@ def breadth_first_search(planning_task):
         # Step 2
         # Get the next node that is stored in the queue, whose neighbor
         # nodes will be visited now
-        node = None 
+        node = None
         node = queue.popleft()
 
         # Step 3
         # If the goal of the planning task has been reach in the state
         # of the node, then extract the solution and return it.
-        # HINT 1: Access the state attribute of the node that represents 
+        # HINT 1: Access the state attribute of the node that represents
         #         the state in the node
         # HINT 2: Use a Task method that you implemented to check if
-        #         the goal of the planning task has been reached at the 
+        #         the goal of the planning task has been reached at the
         #         the state in the node
         # HINT 3: Use the  SearchNode method extract_solution() to extract
         #         and return the solution to the task (in case the goal has
@@ -87,18 +87,18 @@ def breadth_first_search(planning_task):
             logging.info("%d Nodes expanded" % iteration)
             return node.extract_solution()
 
-        # Step 4 
-        # Create and add each neighbor node of the node to the queue, if the 
+        # Step 4
+        # Create and add each neighbor node of the node to the queue, if the
         # neighbor node hasn't been visited yet.
-        # HINT 1: You can create neighbor nodes, using the SearchNode method 
+        # HINT 1: You can create neighbor nodes, using the SearchNode method
         #         make_child_node()
-        # HINT 2: Use a Task method that you implemented to retrieve the 
+        # HINT 2: Use a Task method that you implemented to retrieve the
         #         all the possible neighbor (next) states that can be reached
-        #         after the state in the node. Information stored in the 
-        #         retrieved neighbor states, can be used to create a neighbor 
+        #         after the state in the node. Information stored in the
+        #         retrieved neighbor states, can be used to create a neighbor
         #         node with make_child_node()
-        # HINT 3: Only add a newly created neighbor node to the queue, if the 
-        #         state in the neighbor node has not been visited yet, i.e. 
+        # HINT 3: Only add a newly created neighbor node to the queue, if the
+        #         state in the neighbor node has not been visited yet, i.e.
         #         it is not the set "closed"
         # HINT 4: If a newly created neighbor node has been added to the queue,
         #         add its state to the set "closed", to avoid duplicate visits
@@ -110,7 +110,7 @@ def breadth_first_search(planning_task):
                 )
                 # remember the successor state
                 closed.add(successor_state)
-    
+
     # If no solution has been extracted and returned after iterating over the whole
     # queue, the function returns None, considering that the task is unsolvable
     logging.info("No operators left. Task unsolvable.")

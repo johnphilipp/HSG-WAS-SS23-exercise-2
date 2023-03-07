@@ -21,23 +21,22 @@ Classes for representing a STRIPS planning task
 
 
 class Operator:
-
     def __init__(self, name, preconditions, add_effects, del_effects):
         """
-        The constructor of the class Operator. 
+        The constructor of the class Operator.
 
         In a STRIPS planning task, an Operator is an action that can be applied
         to change the state during the execution of a plan.
 
         In this class all sets are implemented as Python frozensets.
         See more here: https://www.programiz.com/python-programming/methods/built-in/frozenset
-        
-        @param name The name of the operator (e.g. "action1 operand1 operand2" 
+
+        @param name The name of the operator (e.g. "action1 operand1 operand2"
                is the str name of an operator for the action action1 and the
                grounded operands operand1 and operand2)
-        @param preconditions The preconditions (the predicates) that need to hold 
+        @param preconditions The preconditions (the predicates) that need to hold
                at a given state for the operator to be applicable in state
-        @param add_effects the predicates that become true in state after applying 
+        @param add_effects the predicates that become true in state after applying
                the operator
         @param del_effects the predicates that become false in state after applying
                the operator
@@ -57,7 +56,7 @@ class Operator:
         @return True if the operator's preconditions is a subset of the state,
                 False otherwise
         """
-        return None # remove after implementing the method
+        return self.preconditions.issubset(state)
 
     # ---- Step 2 ----
     # Implement the method
@@ -75,7 +74,10 @@ class Operator:
         @return A new state (set of predicates) after the application of the
                 operator
         """
-        return None # remove after implementing the method
+        new_state = set(state)
+        new_state -= self.del_effects
+        new_state |= self.add_effects
+        return frozenset(new_state)
 
     def __eq__(self, other):
         return (
@@ -132,7 +134,7 @@ class Task:
         @param state A state
         @return True if all the goals are reached, False otherwise
         """
-        return None # remove after implementing the method
+        return self.goals.issubset(state)
 
     # ---- Step 4 ----
     # Implement the method
@@ -144,13 +146,20 @@ class Task:
         For every operator of the Task instance, if an operator is applicable at the
         current "state", store in a list the pair of the operator, and the new (next) state
         that holds when applying the operator in "state".
-        
-        @param state A state 
+
+        @param state A state
         @return A list with (op, new_state) pairs where "op" is the applicable
         operator and "new_state" the state that results when "op" is applied
         in state "state".
         """
-        return [] # remove after implementing the method
+        successor_states = []
+
+        for operator in self.operators:
+            if operator.applicable(state):
+                new_state = operator.apply(state)
+                successor_states.append((operator, new_state))
+
+        return successor_states
 
     def __str__(self):
         s = "Task {0}\n  Vars:  {1}\n  Init:  {2}\n  Goals: {3}\n  Ops:   {4}"
